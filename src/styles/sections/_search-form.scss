@@ -1,4 +1,5 @@
 .btn-form-submit {
+
   font-size: 24px;
   font-weight: bold;
   color: #004A80;
@@ -10,6 +11,8 @@
   -webkit-appearance: none;
   width: 180px;
   margin-left: 20px;
+  outline: none; //Added to override the styles that made the style look different from the spect
+  border: none; //Added to override the styles that made the style look different from the spect
 
   @media (max-width: 767px) {
     width: 100%;
@@ -18,7 +21,12 @@
 
   &:hover {
     background-image: none;
-    background-color: #6c757d;
+    background-color: #F2DA56 ; //Changed the color
+  }
+
+  &:active { //Created the state active
+    background-image: none;
+    background-color: #F6BC25 ; 
   }
 }
 
