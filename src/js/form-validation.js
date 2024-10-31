@@ -52,6 +52,15 @@ function initInputValidation() {
   });
 }
 
+function toggleLoading(isLoading) { //Created a function to determine to show the loading function and hidde all of the sections
+  const loadingContainer = document.getElementById('loading-content');
+  loadingContainer.classList.toggle('visible', isLoading);
+  
+  document.querySelectorAll('section').forEach((element) => {
+    element.classList.toggle('hidden', isLoading);
+  });
+}
+
 function initSearchButton() {
   document.querySelectorAll('.js-btn-search').forEach(function (button) {
     button.addEventListener('click', function (e) {
@@ -73,20 +82,28 @@ function initSearchButton() {
         emailInput.parentNode.classList.remove('error');
         const proxyurl = '';
         const url = 'https://ltvdataapi.devltv.co/api/v1/records?email=' + email;
+
+        toggleLoading(true); //Show the loading page
+
         fetch(proxyurl + url)
           .then(function (response) {
             return response.text();
           })
           .then(function (contents) {
             localStorage.setItem('userObject', contents);
+            toggleLoading(false); //Hides the loading page
             showResultsSection();
           })
           .catch(function (e) {
+            toggleLoading(false); //Hides the loading page
             console.log(e);
           });
+
+
       } else if (x !== true) {
         emailInput.parentNode.classList.add('error');
       }
+      
     });
   });
 }

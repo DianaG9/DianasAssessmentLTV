@@ -17,10 +17,15 @@
         </a>
         <div>
           <img src="assets/search.svg" width="23" height="23" alt="Search">
-          <img class="ms-4" src="assets/person.svg" width="20" height="23" alt="Profile">  <!-- Added the size specifications and changed the class from ml to ms (margin start)-->
+          <img class="ms-4" src="assets/person.svg" width="20" height="23" alt="Profile">  <!-- Added the size specifications and changed the class from ml to ms (margin startnp)-->
         </div>
       </div>
     </nav>
+
+    <div id="loading-content"> <!-- Created a new section to have the loading page-->
+      <img class="gif" src="assets/loading_spinner.gif">
+      <h2 class="text-primary fw-bold">Please wait a moment...</h2>
+    </div>
 
     <!-- Main Form -->
     <section id="main-form" class="above-the-fold">
@@ -155,7 +160,7 @@
           <div class="input-group">
             <input id="email-search-again-input" class="form-control" type="text" name="email" placeholder="Enter an Email Address" />
             <p class="error-msg">Please enter a valid email address</p>
-            <button class="js-btn-search btn-form-submit text-uppercase" type="submit" data-form="search-again">Go!</button>
+            <button class="js-btn-search btn-form-submit text-uppercase" type="submit" data-form="search-again">Go!</button> 
           </div>
         </form>
       </div>
