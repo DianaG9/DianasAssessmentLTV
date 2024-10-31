@@ -55,6 +55,10 @@
   &.error > .form-control {
     border: 3px solid #DC0015;
     border-radius: 3px 3px 0 0 !important;
+    @media (max-width: 767px) {//Added responsive code for the error message to show as it was planned on the spect
+      margin-bottom: 28px;
+    }
+
   }
 }
 
@@ -77,6 +81,13 @@
   padding: 4px 12px;
   background: #DC0015;
   color: #FFF;
-  border-radius: 0 0 3px 3px;
+  border-radius: 0 0 3px 3px !important; 
   font-size: 16px;
+
+  @media (max-width: 767px) { //Added responsive code for the error message to show as it was planned on the spect
+    width: 100%;
+    top: 45px;
+    bottom: inherit;
+    left: 1px;
+  }
 }
