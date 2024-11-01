@@ -14,7 +14,35 @@ function showResultsSection() {
   resultsSection.classList.remove('d-none');
 }
 
-function initInputValidation() {
+//Created the function to switch between tabs
+const tabEmailButton = document.getElementById('tab-button-email');
+const tabPhoneButton = document.getElementById('tab-button-phone');
+const tabEmailContent = document.getElementById('tab-email');
+const tabPhoneContent = document.getElementById('tab-phone');
+
+function switchTab(selectedTab) { 
+  if (selectedTab === 'tab-email') {
+    tabEmailButton.classList.add('active');
+    tabPhoneButton.classList.remove('active');
+    tabEmailContent.style.display = 'flex';
+    tabPhoneContent.style.display = 'none';
+    initInputValidationEmail();
+    initSearchButtonEmail();
+
+  } else {
+    tabPhoneButton.classList.add('active');
+    tabEmailButton.classList.remove('active');
+    tabPhoneContent.style.display = 'flex';
+    tabEmailContent.style.display = 'none';
+    initInputValidationPhone();
+    initSearchButtonPhone();
+  }
+}
+
+tabEmailButton.addEventListener('click', () => switchTab('tab-email'));
+tabPhoneButton.addEventListener('click', () => switchTab('tab-phone'));
+
+function initInputValidationEmail() {
   document.querySelectorAll('input[type="text"]').forEach(function (input) {
     input.addEventListener('keypress', function (event) {
       const email = input.value.toLowerCase();
@@ -29,7 +57,6 @@ function initInputValidation() {
       if (keycode == '13') {
         event.preventDefault();
         localStorage.clear();
-
         if (x === true) {
           const proxyurl = '';
           const url = 'https://ltvdataapi.devltv.co/api/v1/records?email=' + email;
@@ -52,16 +79,44 @@ function initInputValidation() {
   });
 }
 
-function toggleLoading(isLoading) { //Created a function to determine to show the loading function and hidde all of the sections
-  const loadingContainer = document.getElementById('loading-content');
-  loadingContainer.classList.toggle('visible', isLoading);
-  
-  document.querySelectorAll('section').forEach((element) => {
-    element.classList.toggle('hidden', isLoading);
+function initInputValidationPhone() {
+document.querySelectorAll('input[type="number"]').forEach(function (input) {
+  input.addEventListener('keypress', function (event) {
+    const phone = input.value;
+    const regEx = /^[0-9]{10}$/; 
+    const keycode = event.keyCode ? event.keyCode : event.which;
+
+    if (!/[0-9]/.test(String.fromCharCode(keycode)) && keycode !== 8) {
+      event.preventDefault(); 
+    }
+
+    if (keycode == '13') {
+      event.preventDefault();
+
+      if (phone.match(regEx)) {
+        input.parentNode.classList.remove('error');
+        const proxyurl = '';
+        const url = 'https://ltvdataapi.devltv.co/api/v1/records?phone=' + phone; 
+        fetch(proxyurl + url)
+          .then(function (response) {
+            return response.text();
+          })
+          .then(function (contents) {
+            localStorage.setItem('userObject', contents);
+            showResultsSection();
+          })
+          .catch(function (e) {
+            console.log(e);
+          });
+      } else {
+        input.parentNode.classList.add('error'); 
+      }
+    }
   });
+});
 }
 
-function initSearchButton() {
+function initSearchButtonEmail() {
   document.querySelectorAll('.js-btn-search').forEach(function (button) {
     button.addEventListener('click', function (e) {
       e.preventDefault();
@@ -108,4 +163,61 @@ function initSearchButton() {
   });
 }
 
-export { initInputValidation, initSearchButton };
+function initSearchButtonPhone() {
+    document.querySelectorAll('.js-btn-search').forEach(function (button) {
+      button.addEventListener('click', function (e) {
+        e.preventDefault();
+        localStorage.clear(); 
+        const selector = e.currentTarget.dataset.form;
+        const phoneInput = document.getElementById(`phone-${selector}-input`); 
+        const phone = phoneInput.value; 
+  
+        let isValidPhone;
+        const regEx = /^[0-9]{10}$/; 
+        if (phone.match(regEx)) {
+          isValidPhone = true;
+        } else {
+          isValidPhone = false;
+        }
+  
+        if (isValidPhone) {
+          phoneInput.parentNode.classList.remove('error');
+          const proxyurl = '';
+          const url = 'https://ltvdataapi.devltv.co/api/v1/records?phone=' + phone; 
+  
+          toggleLoading(true); 
+  
+          fetch(proxyurl + url)
+            .then(function (response) {
+              return response.text();
+            })
+            .then(function (contents) {
+              localStorage.setItem('userObject', contents);
+              toggleLoading(false); 
+              showResultsSection();
+            })
+            .catch(function (e) {
+              toggleLoading(false); 
+              console.log(e);
+            });
+  
+        } else {
+          phoneInput.parentNode.classList.add('error'); 
+        }
+      });
+    });
+  }
+
+
+
+export { initInputValidationEmail , initSearchButtonEmail, initInputValidationPhone, initSearchButtonPhone};
+
+//Created a function to determine to show the loading function and hidde all of the sections
+function toggleLoading(isLoading) { 
+  const loadingContainer = document.getElementById('loading-content');
+  loadingContainer.classList.toggle('visible', isLoading);
+  
+  document.querySelectorAll('section').forEach((element) => {
+    element.classList.toggle('hidden', isLoading);
+  });
+}

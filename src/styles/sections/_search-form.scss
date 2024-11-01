@@ -91,3 +91,54 @@
     left: 1px;
   }
 }
+
+#tab-phone{
+  display: none;
+}
+
+.tab{
+  justify-content: start;
+  p{
+    color:#FFFFFF;
+    margin: 0px 24px 0px 0px;
+    @media (max-width: 767px) {
+      display: none;
+    }
+  }
+
+  @media (max-width: 767px) {
+    justify-content: center;
+  }
+}
+
+.tab-button { //Added the class for the buttons to switch between email address search and phone number search
+  color: #F6BC25;
+  font-size: 16px;
+  font-weight: bold;
+  background-color: none;
+  border: 3px solid #F6BC25;
+  padding: 8px 12px;
+  cursor: pointer;
+  border-radius: 6px;
+  margin-right: 20px;
+  position: relative;
+  transition: color 0.3s, background-color 0.3s;
+}
+
+.tab-button.active { //added the classe for the selected option to search 
+  background-color: #F6BC25;
+  color: #004A80;
+}
+
+.tab-button.active::after { 
+  content: '';
+  position: absolute;
+  bottom: -10px; 
+  left: 50%;
+  transform: translateX(-50%);
+  width: 0;
+  height: 0;
+  border-left: 8px solid transparent;
+  border-right: 8px solid transparent;
+  border-top: 10px solid #F6BC25;    
+}
