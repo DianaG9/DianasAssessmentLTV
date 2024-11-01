@@ -31,8 +31,6 @@
 
 .input-group {
 
-  display: flex;
-
   > .form-control {
     height: 70px;
     background: #FFF;
@@ -52,7 +50,7 @@
     @media (max-width: 767px) {
       width: 100%;
       height: 50px;
-    }
+      margin-right: 0px;    }
   }
 
   &.error > .form-control {
@@ -62,6 +60,12 @@
       margin-bottom: 28px;
     }
 
+  }
+  @media (max-width: 767px) {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
   }
 }
 
@@ -110,7 +114,7 @@
   }
 
   @media (max-width: 767px) {
-    justify-content: center;
+    justify-content: space-evenly;
   }
 }
 
@@ -126,6 +130,10 @@
   margin-right: 20px;
   position: relative;
   transition: color 0.3s, background-color 0.3s;
+
+  @media (max-width: 767px) {
+    margin: 0px;
+  }
 }
 
 .tab-button.active { //added the classe for the selected option to search 

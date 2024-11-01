@@ -8,3 +8,8 @@ import { initInputValidationEmail, initSearchButtonEmail, initInputValidationPho
   initInputValidationPhone();
 })();
 
+document.body.style.overflow = 'hidden';
+window.addEventListener('load', function() {
+  document.querySelector(`.loader-container`).style.display = 'none';
+  document.body.style.overflow = 'auto';
+});
