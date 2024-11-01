@@ -5,5 +5,6 @@ import { initInputValidationEmail, initSearchButtonEmail, initInputValidationPho
 (function init() {
   initInputValidationEmail();
   initSearchButtonEmail();
+  initInputValidationPhone();
 })();
 

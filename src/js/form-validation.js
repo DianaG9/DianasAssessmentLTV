@@ -47,20 +47,20 @@ function initInputValidationEmail() {
     input.addEventListener('keypress', function (event) {
       const email = input.value.toLowerCase();
       const regEx = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/;
-      if (email.match(regEx)) {
-        var x = true;
-        input.parentNode.classList.remove('error');
-      } else {
-        var x = false;
+      let isValidEmail = email.match(regEx) !== null;
+
+      if (isValidEmail) { //Refactor the conditional to simplify code
+          input.parentNode.classList.remove('error');
       }
+
       const keycode = event.keyCode ? event.keyCode : event.which;
       if (keycode == '13') {
         event.preventDefault();
         localStorage.clear();
-        if (x === true) {
-          const proxyurl = '';
-          const url = 'https://ltvdataapi.devltv.co/api/v1/records?email=' + email;
-          fetch(proxyurl + url)
+        if (isValidEmail) { //Refactor condional not needed as the var it's a boolean.
+          //Refactor deleted 'const proxyurl' as the var is empty 
+          const url = `https://ltvdataapi.devltv.co/api/v1/records?email=${email}`; //Refactor on best practices to concatenate
+          fetch(url) //Refactor deleted 'proxyurl' as the var is empty 
             .then(function (response) {
               return response.text();
             })
@@ -71,7 +71,7 @@ function initInputValidationEmail() {
             .catch(function (e) {
               console.log(e);
             });
-        } else if (x !== true) {
+        } else { //Refactor condional not needed.
           input.parentNode.classList.add('error');
         }
       }
@@ -79,8 +79,49 @@ function initInputValidationEmail() {
   });
 }
 
+function initSearchButtonEmail() {
+  document.querySelectorAll('.js-btn-search').forEach(function (button) {
+    button.addEventListener('click', function (e) {
+      e.preventDefault();
+      localStorage.clear(); // Clears storage for next request
+      const selector = e.currentTarget.dataset.form;
+      const emailInput = document.getElementById(`email-${selector}-input`);
+      const email = emailInput.value.toLowerCase();
+
+      let isValidEmail;
+      const regEx = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/;
+
+      isValidEmail = email.match(regEx) !== null; //Refactor the conditional and simplified to one line of code 
+
+      if (isValidEmail) { //Refactor condional not needed as the var it's a boolean.
+        emailInput.parentNode.classList.remove('error');
+        //Refactor deleted 'const proxyurl' as the var is empty 
+        const url = `https://ltvdataapi.devltv.co/api/v1/records?email=${email}`; //Refactor on best practices to concatenate
+
+        toggleLoading(true); //Show the loading page
+
+        fetch(url) //Refactor deleted 'proxyurl' as the var is empty 
+          .then(function (response) {
+            return response.text();
+          })
+          .then(function (contents) {
+            localStorage.setItem('userObject', contents);
+            toggleLoading(false); //Hides the loading page
+            showResultsSection();
+          })
+          .catch(function (e) {
+            toggleLoading(false); //Hides the loading page
+            console.log(e);
+          });
+      } else { //Refactor condional not needed.
+        emailInput.parentNode.classList.add('error');
+      }
+    });
+  });
+}
+
 function initInputValidationPhone() {
-document.querySelectorAll('input[type="number"]').forEach(function (input) {
+document.querySelectorAll('.phone-search-input').forEach(function (input) { 
   input.addEventListener('keypress', function (event) {
     const phone = input.value;
     const regEx = /^[0-9]{10}$/; 
@@ -95,9 +136,8 @@ document.querySelectorAll('input[type="number"]').forEach(function (input) {
 
       if (phone.match(regEx)) {
         input.parentNode.classList.remove('error');
-        const proxyurl = '';
-        const url = 'https://ltvdataapi.devltv.co/api/v1/records?phone=' + phone; 
-        fetch(proxyurl + url)
+        const url = `https://ltvdataapi.devltv.co/api/v1/records?phone=${phone}`; //Refactor on best practices to concatenate
+        fetch( url)
           .then(function (response) {
             return response.text();
           })
@@ -116,53 +156,6 @@ document.querySelectorAll('input[type="number"]').forEach(function (input) {
 });
 }
 
-function initSearchButtonEmail() {
-  document.querySelectorAll('.js-btn-search').forEach(function (button) {
-    button.addEventListener('click', function (e) {
-      e.preventDefault();
-      localStorage.clear(); // Clears storage for next request
-      const selector = e.currentTarget.dataset.form;
-      const emailInput = document.getElementById(`email-${selector}-input`);
-      const email = emailInput.value.toLowerCase();
-
-      let x;
-      const regEx = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/;
-      if (email.match(regEx)) {
-        x = true;
-      } else {
-        x = false;
-      }
-
-      if (x === true) {
-        emailInput.parentNode.classList.remove('error');
-        const proxyurl = '';
-        const url = 'https://ltvdataapi.devltv.co/api/v1/records?email=' + email;
-
-        toggleLoading(true); //Show the loading page
-
-        fetch(proxyurl + url)
-          .then(function (response) {
-            return response.text();
-          })
-          .then(function (contents) {
-            localStorage.setItem('userObject', contents);
-            toggleLoading(false); //Hides the loading page
-            showResultsSection();
-          })
-          .catch(function (e) {
-            toggleLoading(false); //Hides the loading page
-            console.log(e);
-          });
-
-
-      } else if (x !== true) {
-        emailInput.parentNode.classList.add('error');
-      }
-      
-    });
-  });
-}
-
 function initSearchButtonPhone() {
     document.querySelectorAll('.js-btn-search').forEach(function (button) {
       button.addEventListener('click', function (e) {
@@ -174,20 +167,16 @@ function initSearchButtonPhone() {
   
         let isValidPhone;
         const regEx = /^[0-9]{10}$/; 
-        if (phone.match(regEx)) {
-          isValidPhone = true;
-        } else {
-          isValidPhone = false;
-        }
+
+        isValidPhone = phone.match(regEx) !== null;
   
         if (isValidPhone) {
           phoneInput.parentNode.classList.remove('error');
-          const proxyurl = '';
-          const url = 'https://ltvdataapi.devltv.co/api/v1/records?phone=' + phone; 
-  
+          const url = `https://ltvdataapi.devltv.co/api/v1/records?phone=${phone}`; //Refactor on best practices to concatenate
+
           toggleLoading(true); 
   
-          fetch(proxyurl + url)
+          fetch(url)
             .then(function (response) {
               return response.text();
             })
@@ -207,8 +196,6 @@ function initSearchButtonPhone() {
       });
     });
   }
-
-
 
 export { initInputValidationEmail , initSearchButtonEmail, initInputValidationPhone, initSearchButtonPhone};
 
