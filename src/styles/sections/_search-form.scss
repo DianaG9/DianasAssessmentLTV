@@ -5,12 +5,11 @@
   color: #004A80;
   background-image: linear-gradient(225deg, #F2DA56 0%, #F6BC25 100%);
   box-shadow: 0 3px 0 0 #A6953B, inset 0 1px 0 0 #FFFFFF;
-  border-radius: 6px;
+  border-radius: 6px !important;
   outline: 0;
   appearance: none;
   -webkit-appearance: none;
   width: 180px;
-  margin-left: 20px;
   outline: none; //Added to override the styles that made the style look different from the spect
   border: none; //Added to override the styles that made the style look different from the spect
 
@@ -31,12 +30,16 @@
 }
 
 .input-group {
+
+  display: flex;
+
   > .form-control {
     height: 70px;
     background: #FFF;
     box-shadow: inset 0 -1px 4px 0 rgba(0, 0, 0, 0.20);
     border-radius: 3px !important;
     font-size: 22px;
+    margin-right: 20px;
 
     &::placeholder {
       color: #9B9B9B;

@@ -37,9 +37,9 @@
 
         <form>
           <div class="tab mb-4 d-flex align-items-center">
-            <p>TYPE OF SEARCH:</p>
-            <div class="tab-button active" id="tab-button-email">EMAIL ADDRESS</div>
-            <div class="tab-button" id="tab-button-phone">PHONE NUMBER</div>
+            <p class="text-uppercase">Type of search:</p>
+            <div class="tab-button text-uppercase active" id="tab-button-email">EMAIL ADDRESS</div>
+            <div class="tab-button text-uppercase" id="tab-button-phone">PHONE NUMBER</div>
           </div>
 
           <div>
@@ -49,7 +49,7 @@
               <button class="js-btn-search btn-form-submit text-uppercase" type="submit" data-form="search">Go!</button> <!-- Deleted the "btn" class since it was causing a transition glitch -->
             </div>
             <div class="input-group" id="tab-phone">
-              <input id="phone-search-input" class="form-control" type="numer" name="phone" placeholder="Enter a Phone Number" />
+              <input id="phone-search-input" class="form-control phone-search-input" type="numer" name="phone" placeholder="Enter a Phone Number" />
               <p class="error-msg">Please enter a valid phone number</p>
               <button class="js-btn-search btn-form-submit text-uppercase" type="submit" data-form="search">Go!</button>
             </div>
